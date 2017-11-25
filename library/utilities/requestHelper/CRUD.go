@@ -24,9 +24,11 @@ func POST(urlString string, requestHeader map[string]string, data interface{}) (
 	if err != nil {
 		return
 	}
-	err = manager.EncodeBody(data)
-	if err != nil {
-		return
+	if data != nil {
+		err = manager.EncodeBody(data)
+		if err != nil {
+			return
+		}
 	}
 	manager.requestMethod = "POST"
 	manager.contentType = APPLICATION_JSON
@@ -42,9 +44,11 @@ func PUT(urlString string, requestHeader map[string]string, data interface{}) (r
 	if err != nil {
 		return
 	}
-	err = manager.EncodeBody(data)
-	if err != nil {
-		return
+	if data != nil {
+		err = manager.EncodeBody(data)
+		if err != nil {
+			return
+		}
 	}
 	manager.requestMethod = "PUT"
 	manager.contentType = APPLICATION_JSON
@@ -60,9 +64,11 @@ func PATCH(urlString string, requestHeader map[string]string, data interface{}) 
 	if err != nil {
 		return
 	}
-	err = manager.EncodeBody(data)
-	if err != nil {
-		return
+	if data != nil {
+		err = manager.EncodeBody(data)
+		if err != nil {
+			return
+		}
 	}
 	manager.requestMethod = "PATCH"
 	manager.contentType = APPLICATION_JSON
