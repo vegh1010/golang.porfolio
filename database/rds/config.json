@@ -1,0 +1,8 @@
+{
+  "PGSQL_USER": "dev",
+  "PGSQL_PASS": "dev",
+  "PGSQL_HOST": "127.0.0.1",
+  "PGSQL_PORT": "5432",
+  "PGSQL_DB_PREFIX": "dev",
+  "PGSQL_DATABASE": "dev"
+}
