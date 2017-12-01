@@ -20,19 +20,19 @@ func main() {
 	check(err)
 
 	data.TrimSpace()
-	//data.Print()
+	data.Print()
 
 	formatter := NewVisiberFormatter(data)
 
-	vUser1, err := formatter.Calculate("14021989")
+	vUser1, err := formatter.Calculate("04051")
 	check(err)
 	vUser1.Print()
 
-	vUser2, err := formatter.Calculate("18021990")
-	check(err)
-	vUser2.Print()
-
-	relation, err := formatter.Compatibility(vUser1, vUser2)
-	check(err)
-	relation.Print()
+	//vUser2, err := formatter.Calculate("18021990")
+	//check(err)
+	//vUser2.Print()
+	//
+	//relation, err := formatter.Compatibility(vUser1, vUser2)
+	//check(err)
+	//relation.Print()
 }

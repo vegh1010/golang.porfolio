@@ -131,14 +131,14 @@ func (self *VisiberUser) Print() {
 	fmt.Println("Group:", self.Group)
 
 	self.CharacterData.Print()
-	self.GroupData.Print()
-	for _, data := range self.BehavioursData {
-		data.Print()
-	}
-	for _, data := range self.InsidesData {
-		data.Print()
-	}
-	for _, data := range self.OutsidesData {
-		data.Print()
-	}
+	//self.GroupData.Print()
+	//for _, data := range self.BehavioursData {
+	//	data.Print()
+	//}
+	//for _, data := range self.InsidesData {
+	//	data.Print()
+	//}
+	//for _, data := range self.OutsidesData {
+	//	data.Print()
+	//}
 }

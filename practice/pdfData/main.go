@@ -18,11 +18,14 @@ func main() {
 	pdf.AddPage()
 
 	diagram := VisiberDiagram{
-		T:        NewTriangle(Point{120, 80}, 420, 350),
-		Birthday: NewBirthdayTextBox(Point{145, 40}, 30),
+		T:        NewInvertTriangle(Point{120, 180}, 250, 350, 30),
+		Birthday: NewBirthdayTextBox(Point{145, 140}, 30),
 	}
 	diagram.Birthday.Insert("A", 1)
-	diagram.Draw(pdf)
+	err = diagram.Draw(pdf)
+	if err != nil {
+		panic(err)
+	}
 
 	err = pdf.OutputFileAndClose(filePath)
 	if err != nil {
