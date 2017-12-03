@@ -39,9 +39,12 @@ type BirthdayTextBox struct {
 	Fields     map[string]TextBox
 }
 
-func (self *BirthdayTextBox) Draw(pdf *gofpdf.Fpdf) {
+func (self *BirthdayTextBox) Draw(pdf *gofpdf.Fpdf, data map[string]interface{}) {
 	for _, value := range self.FieldNames {
 		field := self.Fields[value]
+		if number, exist := data[value]; exist  {
+			field.Text = fmt.Sprint(number)
+		}
 		field.Draw(pdf)
 	}
 }

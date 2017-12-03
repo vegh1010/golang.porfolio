@@ -9,12 +9,12 @@ type VisiberDiagram struct {
 	Birthday *BirthdayTextBox
 }
 
-func (self *VisiberDiagram) Draw(pdf *gofpdf.Fpdf) (err error) {
-	err = self.T.Draw(pdf)
+func (self *VisiberDiagram) Draw(pdf *gofpdf.Fpdf, data map[string]interface{}) (err error) {
+	err = self.T.Draw(pdf, data)
 	if err != nil {
 		return
 	}
-	self.Birthday.Draw(pdf)
+	self.Birthday.Draw(pdf, data)
 
 	return
 }
