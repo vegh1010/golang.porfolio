@@ -41,7 +41,7 @@ func main() {
 		//"O": 1,
 		//"P": 1,
 	}
-	err = diagram.Draw(pdf, data)
+	err = diagram.Draw(pdf, "Val", data)
 	if err != nil {
 		panic(err)
 	}
