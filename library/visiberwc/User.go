@@ -1,4 +1,4 @@
-package main
+package visiberwc
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type VisiberUser struct {
+type User struct {
 	CharacterFields []string
 	BehaviourFields []string
 	InsideFields    []string
@@ -29,7 +29,7 @@ type VisiberUser struct {
 	OutsidesData []CharacterNumber
 }
 
-func (self *VisiberUser) Init() {
+func (self *User) Init() {
 	self.CharacterFields = []string{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X"}
 	self.BehaviourFields = []string{"I-J", "J-K", "K-L", "I-M", "J-M", "K-N", "L-N", "M-N", "M-O", "N-O", "P-Q", "U-V", "W-X"}
 	self.InsideFields = []string{"I", "J", "K", "L", "M", "N", "O"}
@@ -55,7 +55,7 @@ func (self *VisiberUser) Init() {
 	self.OutsidesData = []CharacterNumber{}
 }
 
-func (self *VisiberUser) Parse(date string) (err error) {
+func (self *User) Parse(date string) (err error) {
 	self.Init()
 
 	var layout = "02012006"
@@ -113,7 +113,7 @@ func (self *VisiberUser) Parse(date string) (err error) {
 	return
 }
 
-func (self *VisiberUser) Print() {
+func (self *User) Print() {
 	var characters []string
 	for _, field := range self.CharacterFields {
 		characters = append(characters, fmt.Sprint(field+": ", self.Fields[field]))

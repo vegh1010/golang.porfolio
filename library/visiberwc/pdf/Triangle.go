@@ -1,4 +1,4 @@
-package main
+package visiberwc_pdf
 
 import (
 	"github.com/jung-kurt/gofpdf"

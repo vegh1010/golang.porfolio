@@ -1,15 +1,15 @@
-package main
+package visiberwc_pdf
 
 import (
 	"github.com/jung-kurt/gofpdf"
 )
 
-type VisiberDiagram struct {
+type Diagram struct {
 	T        *InvertTriangle
 	Birthday *BirthdayTextBox
 }
 
-func (self *VisiberDiagram) Draw(pdf *gofpdf.Fpdf, data map[string]interface{}) (err error) {
+func (self *Diagram) Draw(pdf *gofpdf.Fpdf, data map[string]int64) (err error) {
 	err = self.T.Draw(pdf, data)
 	if err != nil {
 		return

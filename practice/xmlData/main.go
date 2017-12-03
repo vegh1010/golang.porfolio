@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"github.com/vegh1010/golang.porfolio/library/visiberwc"
 	"io/ioutil"
 	"os"
 )
@@ -15,16 +16,16 @@ func main() {
 	byteValue, err := ioutil.ReadAll(xmlFile)
 	check(err)
 
-	var data Visiber
+	var data visiberwc.RawXML
 	err = xml.Unmarshal(byteValue, &data)
 	check(err)
 
 	data.TrimSpace()
 	data.Print()
 
-	formatter := NewVisiberFormatter(data)
+	formatter := visiberwc.NewFormatter(data)
 
-	vUser1, err := formatter.Calculate("04051")
+	vUser1, err := formatter.Calculate("14021989")
 	check(err)
 	vUser1.Print()
 

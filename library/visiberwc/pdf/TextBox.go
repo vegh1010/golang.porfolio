@@ -1,4 +1,4 @@
-package main
+package visiberwc_pdf
 
 import "github.com/jung-kurt/gofpdf"
 
@@ -21,5 +21,4 @@ func (self *TextBox) Draw(pdf *gofpdf.Fpdf) {
 
 	pdf.SetFont("Helvetica", "B", 20)
 	pdf.Text(self.Start.X+8, self.Start.Y+23, self.Text)
-
 }

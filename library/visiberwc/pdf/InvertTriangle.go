@@ -1,4 +1,4 @@
-package main
+package visiberwc_pdf
 
 import (
 	"fmt"
@@ -200,7 +200,7 @@ func (self *InvertTriangle) segment5(Start Point, partitionH, partitionW, Length
 	}
 }
 
-func (self *InvertTriangle) Draw(pdf *gofpdf.Fpdf, data map[string]interface{}) (err error) {
+func (self *InvertTriangle) Draw(pdf *gofpdf.Fpdf, data map[string]int64) (err error) {
 	err = self.T.Draw(pdf)
 	if err != nil {
 		return

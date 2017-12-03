@@ -1,21 +1,19 @@
-package main
+package visiberwc
 
 import "fmt"
 
-type VisiberFormatter struct {
+type Formatter struct {
 	RawCharacters    map[string]CharacterNumber
 	RawElements      map[string]Element
 	RawTraits        map[string]Trait
 	RawRelationships map[string]Relationship
 	RawGroups        map[string]Group
-
-	//VisiberUser
 }
 
-func (self *VisiberFormatter) Calculate(date string) (VisiberUser, error) {
-	fmt.Println("VisiberFormatter.Calculate() - " + date)
+func (self *Formatter) Calculate(date string) (User, error) {
+	fmt.Println("Formatter.Calculate() - " + date)
 
-	var vUser VisiberUser
+	var vUser User
 	err := vUser.Parse(date)
 	if err != nil {
 		return vUser, err
@@ -37,8 +35,8 @@ func (self *VisiberFormatter) Calculate(date string) (VisiberUser, error) {
 	return vUser, nil
 }
 
-func (self *VisiberFormatter) Compatibility(vUser1, vUser2 VisiberUser) (Relationship, error) {
-	fmt.Println("VisiberFormatter.Compatibility()")
+func (self *Formatter) Compatibility(vUser1, vUser2 User) (Relationship, error) {
+	fmt.Println("Formatter.Compatibility()")
 
 	var data Relationship
 	character, err := reduce(fmt.Sprint(vUser1.Character + vUser2.Character))
@@ -50,8 +48,8 @@ func (self *VisiberFormatter) Compatibility(vUser1, vUser2 VisiberUser) (Relatio
 	return data, nil
 }
 
-func NewVisiberFormatter(vData Visiber) *VisiberFormatter {
-	user := VisiberFormatter{}
+func NewFormatter(vData RawXML) *Formatter {
+	user := Formatter{}
 
 	user.RawCharacters = map[string]CharacterNumber{}
 	user.RawElements = map[string]Element{}

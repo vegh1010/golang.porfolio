@@ -1,4 +1,4 @@
-package main
+package visiberwc_pdf
 
 import (
 	"github.com/jung-kurt/gofpdf"
@@ -39,7 +39,7 @@ type BirthdayTextBox struct {
 	Fields     map[string]TextBox
 }
 
-func (self *BirthdayTextBox) Draw(pdf *gofpdf.Fpdf, data map[string]interface{}) {
+func (self *BirthdayTextBox) Draw(pdf *gofpdf.Fpdf, data map[string]int64) {
 	for _, value := range self.FieldNames {
 		field := self.Fields[value]
 		if number, exist := data[value]; exist  {

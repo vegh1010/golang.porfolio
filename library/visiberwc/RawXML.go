@@ -1,4 +1,4 @@
-package main
+package visiberwc
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type Visiber struct {
+type RawXML struct {
 	XMLName       xml.Name          `xml:"visiber"`
 	Characters    []CharacterNumber `xml:"cnumber"`
 	Elements      []Element         `xml:"element"`
@@ -15,7 +15,7 @@ type Visiber struct {
 	Groups        []Group           `xml:"group"`
 }
 
-func (self *Visiber) TrimSpace() {
+func (self *RawXML) TrimSpace() {
 	for i := 0; i < len(self.Characters); i++ {
 		self.Characters[i].TrimSpace()
 	}
@@ -33,7 +33,7 @@ func (self *Visiber) TrimSpace() {
 	}
 }
 
-func (self *Visiber) Print() {
+func (self *RawXML) Print() {
 	for i := 0; i < len(self.Characters); i++ {
 		self.Characters[i].Print()
 	}
