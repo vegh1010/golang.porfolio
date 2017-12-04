@@ -53,6 +53,7 @@ func (self *Diagram) Detail(pdf *gofpdf.Fpdf, data visiberwc.User) {
 	pdf.Ln(15)
 	pdf.SetFont("Times", "", 20)
 	pdf.MultiCell(0, 18, element.Type, "B", "", false)
+	pdf.Ln(5)
 	pdf.SetFont("Times", "", 12)
 	pdf.MultiCell(0, 18, element.LBLControl + ": " + element.Control, "", "", false)
 	pdf.MultiCell(0, 18, element.LBLProductive + ": " + element.Productive, "", "", false)
@@ -60,6 +61,7 @@ func (self *Diagram) Detail(pdf *gofpdf.Fpdf, data visiberwc.User) {
 	pdf.Ln(15)
 	pdf.SetFont("Times", "", 20)
 	pdf.MultiCell(0, 18, "Possible Illness", "B", "", false)
+	pdf.Ln(5)
 	pdf.SetFont("Times", "", 12)
 	pdf.MultiCell(0, 18, "Organs: " + strings.Join(element.Organs, ", "), "", "", false)
 	pdf.MultiCell(0, 18, "Ailments: " + strings.Join(element.Ailments, ", "), "", "", false)
@@ -68,6 +70,7 @@ func (self *Diagram) Detail(pdf *gofpdf.Fpdf, data visiberwc.User) {
 	pdf.Ln(15)
 	pdf.SetFont("Times", "", 20)
 	pdf.MultiCell(0, 18, "Traits", "B", "", false)
+	pdf.Ln(5)
 	pdf.SetFont("Times", "", 12)
 	pdf.MultiCell(0, 18, "Positive: " + character.Positive, "", "", false)
 	pdf.MultiCell(0, 18, "Negative: " + character.Negative, "", "", false)
@@ -75,6 +78,7 @@ func (self *Diagram) Detail(pdf *gofpdf.Fpdf, data visiberwc.User) {
 	pdf.Ln(15)
 	pdf.SetFont("Times", "", 20)
 	pdf.MultiCell(0, 18, "Behavioral Traits", "B", "", false)
+	pdf.Ln(5)
 	pdf.SetFont("Times", "", 12)
 	var traits []string
 	for _, field := range data.BehaviourFields {

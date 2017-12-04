@@ -24,11 +24,11 @@ func main() {
 	check(err)
 
 	data.TrimSpace()
-	data.Print()
+	//data.Print()
 
 	formatter := visiberwc.NewFormatter(data)
 
-	vUser1, err := formatter.Calculate("14021989")
+	vUser1, err := formatter.Calculate("18021991")
 	check(err)
 	//vUser1.Print()
 
@@ -45,7 +45,7 @@ func main() {
 		T:        visiberwc_pdf.NewInvertTriangle(visiberwc_pdf.Point{120, 180}, 250, 350, 30),
 		Birthday: visiberwc_pdf.NewBirthdayTextBox(visiberwc_pdf.Point{145, 140}, 30),
 	}
-	err = diagram.Draw(pdf, "Val", vUser1.Fields)
+	err = diagram.Draw(pdf, "Stanley", vUser1.Fields)
 	if err != nil {
 		panic(err)
 	}
