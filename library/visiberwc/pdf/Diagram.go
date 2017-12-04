@@ -3,8 +3,8 @@ package visiberwc_pdf
 import (
 	"github.com/jung-kurt/gofpdf"
 	"github.com/vegh1010/golang.porfolio/library/visiberwc"
-	"fmt"
 	"strings"
+	"sort"
 )
 
 type Diagram struct {
@@ -59,12 +59,41 @@ func (self *Diagram) Detail(pdf *gofpdf.Fpdf, data visiberwc.User) {
 
 	pdf.Ln(15)
 	pdf.SetFont("Times", "", 20)
+	pdf.MultiCell(0, 18, "Possible Illness", "B", "", false)
+	pdf.SetFont("Times", "", 12)
+	pdf.MultiCell(0, 18, "Organs: " + strings.Join(element.Organs, ", "), "", "", false)
+	pdf.MultiCell(0, 18, "Ailments: " + strings.Join(element.Ailments, ", "), "", "", false)
+	pdf.MultiCell(0, 18, "Symptoms: " + strings.Join(element.Symptoms, ", "), "", "", false)
+
+	pdf.Ln(15)
+	pdf.SetFont("Times", "", 20)
 	pdf.MultiCell(0, 18, "Traits", "B", "", false)
 	pdf.SetFont("Times", "", 12)
 	pdf.MultiCell(0, 18, "Positive: " + character.Positive, "", "", false)
 	pdf.MultiCell(0, 18, "Negative: " + character.Negative, "", "", false)
 
-	//Behavioral Traits
+	pdf.Ln(15)
+	pdf.SetFont("Times", "", 20)
+	pdf.MultiCell(0, 18, "Behavioral Traits", "B", "", false)
+	pdf.SetFont("Times", "", 12)
+	var traits []string
+	for _, field := range data.BehaviourFields {
+		traitField := data.Behaviours[field]
+		var found bool
+		for _, raw := range traits {
+			if traitField == raw {
+				found = true
+			}
+		}
+		if !found {
+			traits = append(traits, traitField)
+		}
+	}
+	sort.Strings(traits)
+	for _, field := range traits {
+		pdf.MultiCell(0, 18, field + ": " + data.BehavioursData[field].Description, "", "", false)
+	}
+
 	//Inside
 	//Outside
 	//Whole

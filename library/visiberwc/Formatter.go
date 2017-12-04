@@ -24,7 +24,7 @@ func (self *Formatter) Calculate(date string) (User, error) {
 	vUser.GroupData = self.RawGroups[vUser.Group]
 
 	for _, data := range vUser.Behaviours {
-		vUser.BehavioursData = append(vUser.BehavioursData, self.RawTraits[data])
+		vUser.BehavioursData[data] = self.RawTraits[data]
 	}
 	for _, data := range vUser.Insides {
 		vUser.InsidesData = append(vUser.InsidesData, self.RawCharacters[data])

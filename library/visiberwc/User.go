@@ -21,7 +21,7 @@ type User struct {
 	GroupData Group
 
 	Behaviours     map[string]string
-	BehavioursData []Trait
+	BehavioursData map[string]Trait
 
 	Insides     []string
 	InsidesData []CharacterNumber
@@ -47,7 +47,7 @@ func (self *User) Init() {
 	self.GroupData = Group{}
 
 	self.Behaviours = map[string]string{}
-	self.BehavioursData = []Trait{}
+	self.BehavioursData = map[string]Trait{}
 
 	self.Insides = []string{}
 	self.InsidesData = []CharacterNumber{}
