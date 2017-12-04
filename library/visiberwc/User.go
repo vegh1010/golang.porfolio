@@ -15,6 +15,7 @@ type User struct {
 	Fields        map[string]int64
 	Character     int64
 	CharacterData CharacterNumber
+	ElementData   Element
 
 	Group     string
 	GroupData Group

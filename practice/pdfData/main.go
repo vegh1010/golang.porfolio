@@ -5,15 +5,37 @@ import (
 	"github.com/vegh1010/golang.porfolio/library/visiberwc/pdf"
 	"os"
 	"github.com/jung-kurt/gofpdf"
+	"github.com/vegh1010/golang.porfolio/library/visiberwc"
+	"io/ioutil"
+	"encoding/xml"
 )
 
 func main() {
+	xmlFile, err := os.Open("visiber.xml")
+	check(err)
+
+	defer xmlFile.Close()
+
+	byteValue, err := ioutil.ReadAll(xmlFile)
+	check(err)
+
+	var data visiberwc.RawXML
+	err = xml.Unmarshal(byteValue, &data)
+	check(err)
+
+	data.TrimSpace()
+	data.Print()
+
+	formatter := visiberwc.NewFormatter(data)
+
+	vUser1, err := formatter.Calculate("14021989")
+	check(err)
+	//vUser1.Print()
+
 	filePath := utilities.CreateFilePath("output", "test.pdf")
 	var file *os.File
-	file, err := os.Create(filePath)
-	if err != nil {
-		panic(err)
-	}
+	file, err = os.Create(filePath)
+	check(err)
 	defer file.Close()
 
 	pdf := gofpdf.New("P", "pt", "A4", "")
@@ -23,30 +45,20 @@ func main() {
 		T:        visiberwc_pdf.NewInvertTriangle(visiberwc_pdf.Point{120, 180}, 250, 350, 30),
 		Birthday: visiberwc_pdf.NewBirthdayTextBox(visiberwc_pdf.Point{145, 140}, 30),
 	}
-	data := map[string]int64{
-		//"A": 1,
-		//"B": 8,
-		//"C": 0,
-		//"D": 2,
-		//"E": 1,
-		//"F": 9,
-		//"G": 9,
-		//"H": 0,
-		//"I": 1,
-		//"J": 1,
-		//"K": 1,
-		//"L": 1,
-		//"M": 1,
-		//"N": 1,
-		//"O": 1,
-		//"P": 1,
-	}
-	err = diagram.Draw(pdf, "Val", data)
+	err = diagram.Draw(pdf, "Val", vUser1.Fields)
 	if err != nil {
 		panic(err)
 	}
 
+	diagram.Detail(pdf, vUser1)
+
 	err = pdf.OutputFileAndClose(filePath)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func check(err error) {
 	if err != nil {
 		panic(err)
 	}

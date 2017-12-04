@@ -20,6 +20,7 @@ func (self *Formatter) Calculate(date string) (User, error) {
 	}
 
 	vUser.CharacterData = self.RawCharacters[fmt.Sprint(vUser.Character)]
+	vUser.ElementData = self.RawElements[fmt.Sprint(vUser.Character)]
 	vUser.GroupData = self.RawGroups[vUser.Group]
 
 	for _, data := range vUser.Behaviours {

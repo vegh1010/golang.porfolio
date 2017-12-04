@@ -19,6 +19,6 @@ func (self *TextBox) Draw(pdf *gofpdf.Fpdf) {
 	pdf.SetLineWidth(2)
 	pdf.DrawPath("DF")
 
-	pdf.SetFont("Helvetica", "B", 20)
+	pdf.SetFont("Times", "B", 20)
 	pdf.Text(self.Start.X+8, self.Start.Y+23, self.Text)
 }

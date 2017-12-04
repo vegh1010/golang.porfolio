@@ -9,14 +9,6 @@ func NewInvertTriangle(Start Point, Height, Width, Length float64) (*InvertTrian
 	iTriangle := InvertTriangle{}
 	iTriangle.T = NewTriangle(Start, Height, Width)
 	iTriangle.FieldNames = []string{
-		"A",
-		"B",
-		"C",
-		"D",
-		"E",
-		"F",
-		"G",
-		"H",
 		"I",
 		"J",
 		"K",
@@ -25,6 +17,14 @@ func NewInvertTriangle(Start Point, Height, Width, Length float64) (*InvertTrian
 		"N",
 		"O",
 		"P",
+		"Q",
+		"R",
+		"S",
+		"T",
+		"U",
+		"V",
+		"W",
+		"X",
 	}
 	iTriangle.Fields = map[string]TextBox{}
 
@@ -56,72 +56,25 @@ type InvertTriangle struct {
 }
 
 func (self *InvertTriangle) segment1(Start Point, partitionH, partitionW, Length float64) {
-	self.Fields["A"] = TextBox{
+	self.Fields["I"] = TextBox{
 		Start: Point{
 			X: Start.X + partitionW - Length,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
-		Text:   "A",
+		Text:   "I",
 	}
-	self.Fields["B"] = TextBox{
+	self.Fields["J"] = TextBox{
 		Start: Point{
 			X: Start.X + partitionW + Length,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
-		Text:   "B",
+		Text:   "J",
 	}
-	self.Fields["C"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*3 - Length*2,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "C",
-	}
-	self.Fields["D"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*3,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "D",
-	}
-}
-
-func (self *InvertTriangle) segment2(Start Point, partitionH, partitionW, Length float64) {
-	self.Fields["E"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*2 - Length*2,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "E",
-	}
-	self.Fields["F"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*2 + Length,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "F",
-	}
-}
-
-func (self *InvertTriangle) segment3(Start Point, partitionH, partitionW, Length float64) {
-	self.Fields["G"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*2 - Length/2,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "G",
-	}
-
 	self.Fields["K"] = TextBox{
 		Start: Point{
-			X: Start.X + partitionW - Length/2,
+			X: Start.X + partitionW*3 - Length*2,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
@@ -129,74 +82,121 @@ func (self *InvertTriangle) segment3(Start Point, partitionH, partitionW, Length
 	}
 	self.Fields["L"] = TextBox{
 		Start: Point{
-			X: Start.X + partitionW - Length*2 - Length/2,
+			X: Start.X + partitionW*3,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
 		Text:   "L",
 	}
+}
+
+func (self *InvertTriangle) segment2(Start Point, partitionH, partitionW, Length float64) {
 	self.Fields["M"] = TextBox{
 		Start: Point{
-			X: Start.X + partitionW - Length*4 - Length/2,
+			X: Start.X + partitionW*2 - Length*2,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
 		Text:   "M",
 	}
-
 	self.Fields["N"] = TextBox{
 		Start: Point{
-			X: Start.X + partitionW*3 - Length/2,
+			X: Start.X + partitionW*2 + Length,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
 		Text:   "N",
 	}
+}
+
+func (self *InvertTriangle) segment3(Start Point, partitionH, partitionW, Length float64) {
 	self.Fields["O"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*3 + Length*2 - Length/2,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "O",
-	}
-	self.Fields["P"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*3 + Length*4 - Length/2,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "P",
-	}
-}
-
-func (self *InvertTriangle) segment4(Start Point, partitionH, partitionW, Length float64) {
-	self.Fields["H"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW - Length,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "H",
-	}
-	self.Fields["I"] = TextBox{
-		Start: Point{
-			X: Start.X + partitionW*3,
-			Y: Start.Y + partitionH - Length/2,
-		},
-		Length: Length,
-		Text:   "I",
-	}
-}
-
-func (self *InvertTriangle) segment5(Start Point, partitionH, partitionW, Length float64) {
-	self.Fields["J"] = TextBox{
 		Start: Point{
 			X: Start.X + partitionW*2 - Length/2,
 			Y: Start.Y + partitionH - Length/2,
 		},
 		Length: Length,
-		Text:   "J",
+		Text:   "O",
+	}
+
+	self.Fields["V"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "V",
+	}
+	self.Fields["U"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW - Length*2 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "U",
+	}
+	self.Fields["S"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW - Length*4 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "S",
+	}
+
+	self.Fields["W"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*3 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "W",
+	}
+	self.Fields["X"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*3 + Length*2 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "X",
+	}
+	self.Fields["T"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*3 + Length*4 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "T",
+	}
+}
+
+func (self *InvertTriangle) segment4(Start Point, partitionH, partitionW, Length float64) {
+	self.Fields["P"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*2 - Length*3,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "P",
+	}
+	self.Fields["Q"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*2 + Length*2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "Q",
+	}
+}
+
+func (self *InvertTriangle) segment5(Start Point, partitionH, partitionW, Length float64) {
+	self.Fields["R"] = TextBox{
+		Start: Point{
+			X: Start.X + partitionW*2 - Length/2,
+			Y: Start.Y + partitionH - Length/2,
+		},
+		Length: Length,
+		Text:   "R",
 	}
 }
 
