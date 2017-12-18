@@ -8,6 +8,7 @@ import (
 	"github.com/vegh1010/golang.porfolio/library/visiberwc"
 	"io/ioutil"
 	"encoding/xml"
+	"fmt"
 )
 
 func main() {
@@ -28,11 +29,14 @@ func main() {
 
 	formatter := visiberwc.NewFormatter(data)
 
-	vUser1, err := formatter.Calculate("18021991")
+	name := "Trump"
+	date := "14061946"
+
+	vUser1, err := formatter.Calculate(date)
 	check(err)
 	//vUser1.Print()
 
-	filePath := utilities.CreateFilePath("output", "test.pdf")
+	filePath := utilities.CreateFilePath("output", fmt.Sprint(name, "_", date, ".pdf"))
 	var file *os.File
 	file, err = os.Create(filePath)
 	check(err)
@@ -42,10 +46,10 @@ func main() {
 	pdf.AddPage()
 
 	diagram := visiberwc_pdf.Diagram{
-		T:        visiberwc_pdf.NewInvertTriangle(visiberwc_pdf.Point{120, 180}, 250, 350, 30),
-		Birthday: visiberwc_pdf.NewBirthdayTextBox(visiberwc_pdf.Point{145, 140}, 30),
+		T:        visiberwc_pdf.NewInvertTriangle(visiberwc_pdf.Point{X: 120, Y: 180}, 250, 350, 30),
+		Birthday: visiberwc_pdf.NewBirthdayTextBox(visiberwc_pdf.Point{X: 145, Y: 140}, 30),
 	}
-	err = diagram.Draw(pdf, "Stanley", vUser1.Fields)
+	err = diagram.Draw(pdf, name, vUser1.Fields)
 	if err != nil {
 		panic(err)
 	}
