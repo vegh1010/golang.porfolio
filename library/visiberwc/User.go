@@ -7,6 +7,8 @@ import (
 )
 
 type User struct {
+	Name string
+
 	CharacterFields []string
 	BehaviourFields []string
 	InsideFields    []string

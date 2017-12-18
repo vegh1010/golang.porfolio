@@ -10,7 +10,7 @@ type Formatter struct {
 	RawGroups        map[string]Group
 }
 
-func (self *Formatter) Calculate(date string) (User, error) {
+func (self *Formatter) Calculate(name, date string) (User, error) {
 	fmt.Println("Formatter.Calculate() - " + date)
 
 	var vUser User
@@ -19,6 +19,7 @@ func (self *Formatter) Calculate(date string) (User, error) {
 		return vUser, err
 	}
 
+	vUser.Name = name
 	vUser.CharacterData = self.RawCharacters[fmt.Sprint(vUser.Character)]
 	vUser.ElementData = self.RawElements[fmt.Sprint(vUser.Character)]
 	vUser.GroupData = self.RawGroups[vUser.Group]

@@ -29,10 +29,9 @@ func main() {
 
 	formatter := visiberwc.NewFormatter(data)
 
-	name := "Trump"
-	date := "14061946"
-
-	vUser1, err := formatter.Calculate(date)
+	name := "Hilary"
+	date := "26101947"
+	vUser1, err := formatter.Calculate(name, date)
 	check(err)
 	//vUser1.Print()
 
@@ -49,7 +48,7 @@ func main() {
 		T:        visiberwc_pdf.NewInvertTriangle(visiberwc_pdf.Point{X: 120, Y: 180}, 250, 350, 30),
 		Birthday: visiberwc_pdf.NewBirthdayTextBox(visiberwc_pdf.Point{X: 145, Y: 140}, 30),
 	}
-	err = diagram.Draw(pdf, name, vUser1.Fields)
+	err = diagram.Draw(pdf, vUser1.Name, vUser1.Fields)
 	if err != nil {
 		panic(err)
 	}
