@@ -40,7 +40,6 @@ angular.module('visiber').controller('appController', function ($rootScope, $sco
                 $rootScope.printOutput("Error: " + receiveMessage.payload);
                 return
             }
-            $rootScope.printOutput(receiveMessage.payload);
         });
     };
 
