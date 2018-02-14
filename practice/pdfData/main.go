@@ -29,8 +29,8 @@ func main() {
 
 	formatter := visiberwc.NewFormatter(data)
 
-	name := "Hilary"
-	date := "26101947"
+	name := "Valentine"
+	date := "14021990"
 	vUser1, err := formatter.Calculate(name, date)
 	check(err)
 	//vUser1.Print()

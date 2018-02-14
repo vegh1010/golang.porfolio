@@ -1,0 +1,18 @@
+{
+  "name": "summit-internet-network-quality-tester",
+  "description": "Summit Internet - Network Quality Tester",
+  "version": "0.0.1",
+  "homepage": "https://git.thesummitgroup.com.au/projects/NT/nqtudpclient",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.6",
+    "angular-bootstrap": "^2.5.0",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "~4.7",
+    "jquery": "^3.2.1"
+  },
+  "resolutions": {
+    "angular": "1.5.8"
+  }
+}
