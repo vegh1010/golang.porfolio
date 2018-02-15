@@ -1,8 +1,8 @@
 {
-  "name": "summit-internet-network-quality-tester",
-  "description": "Summit Internet - Network Quality Tester",
+  "name": "visiber-report-generator",
+  "description": "Visiber Report Generator",
   "version": "0.0.1",
-  "homepage": "https://git.thesummitgroup.com.au/projects/NT/nqtudpclient",
+  "homepage": "github.com/vegh1010/golang.profolio/practice/VisiberGenerator",
   "license": "MIT",
   "private": true,
   "dependencies": {
