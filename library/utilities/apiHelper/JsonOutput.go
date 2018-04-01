@@ -6,30 +6,31 @@ import (
 	"net/http"
 )
 
-type APIResult struct {
+//format microservice output and some basic functionality for condition output
+type APIOutput struct {
 	Success    bool        `json:"success"`
 	Message    interface{} `json:"message"`
 	Data       interface{} `json:"data"`
 	Pagination interface{} `json:"pagination"`
 }
 
-type jsonOutput struct {
-	APIResult
-	ResponseWriter http.ResponseWriter
+type JsonOutput struct {
+	APIOutput
+	http.ResponseWriter
 }
 
-func NewJsonOutput(w http.ResponseWriter) (out jsonOutput) {
+func NewJsonOutput(w http.ResponseWriter) (out JsonOutput) {
 	out.ResponseWriter = w
 	return
 }
 
-func (out *jsonOutput) Print() {
+func (out *JsonOutput) Print() {
 	out.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
 	out.ResponseWriter.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	json.NewEncoder(out.ResponseWriter).Encode(out.APIResult)
+	json.NewEncoder(out.ResponseWriter).Encode(out.APIOutput)
 }
 
-func (out *jsonOutput) PrintIf(print bool, customMessage interface{}) bool {
+func (out *JsonOutput) PrintIf(print bool, customMessage interface{}) bool {
 	if print {
 		out.Success = false
 		out.Message = customMessage
@@ -38,7 +39,7 @@ func (out *jsonOutput) PrintIf(print bool, customMessage interface{}) bool {
 	return print
 }
 
-func (out *jsonOutput) PrintError(err error) {
+func (out *JsonOutput) PrintError(err error) {
 	if err != nil {
 		if out.Message == nil || fmt.Sprint(out.Message) == "" {
 			out.Message = err.Error()
@@ -47,7 +48,7 @@ func (out *jsonOutput) PrintError(err error) {
 	out.Print()
 }
 
-func (out *jsonOutput) PrintErrorIf(err error, customMessage interface{}) (hasError bool) {
+func (out *JsonOutput) PrintErrorIf(err error, customMessage interface{}) (hasError bool) {
 	if err != nil {
 		hasError = true
 		out.Message = customMessage
@@ -56,7 +57,7 @@ func (out *jsonOutput) PrintErrorIf(err error, customMessage interface{}) (hasEr
 	return
 }
 
-func (out *jsonOutput) DownloadFile(bytes []byte, filename string) {
+func (out *JsonOutput) DownloadFile(bytes []byte, filename string) {
 	if filename == "" {
 		filename = "filename"
 	}
@@ -65,7 +66,7 @@ func (out *jsonOutput) DownloadFile(bytes []byte, filename string) {
 	out.ResponseWriter.Write(bytes)
 }
 
-func (out *jsonOutput) printErrorWithHttpStatusCode(err error, statusCode int) {
+func (out *JsonOutput) printErrorWithHttpStatusCode(err error, statusCode int) {
 	if err != nil {
 		// if message not specified use err.Error() as message
 		if out.Message == nil || fmt.Sprint(out.Message) == "" {
@@ -76,10 +77,10 @@ func (out *jsonOutput) printErrorWithHttpStatusCode(err error, statusCode int) {
 	http.Error(out.ResponseWriter, fmt.Sprint(out.Message), statusCode)
 }
 
-func (out *jsonOutput) PrintError400(err error) {
+func (out *JsonOutput) PrintError400(err error) {
 	out.printErrorWithHttpStatusCode(err, 400)
 }
 
-func (out *jsonOutput) PrintError500(err error) {
+func (out *JsonOutput) PrintError500(err error) {
 	out.printErrorWithHttpStatusCode(err, 500)
 }

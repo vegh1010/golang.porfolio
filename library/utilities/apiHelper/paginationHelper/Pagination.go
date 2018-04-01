@@ -1,5 +1,6 @@
 package paginationHelper
 
+//format pagination output for list of items
 type Pagination struct {
 	Page     int     `json:"page"`     // current page number
 	PageSize int     `json:"pageSize"` // number of items per page

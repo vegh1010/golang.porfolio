@@ -35,7 +35,8 @@ func main() {
 	check(err)
 	//vUser1.Print()
 
-	filePath := utilities.CreateFilePath("output", fmt.Sprint(name, "_", date, ".pdf"))
+	filePath, err := utilities.CreateFilePath("output", fmt.Sprint(name, "_", date, ".pdf"))
+	check(err)
 	var file *os.File
 	file, err = os.Create(filePath)
 	check(err)
