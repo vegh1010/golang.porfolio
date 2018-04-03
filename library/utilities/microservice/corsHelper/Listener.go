@@ -29,7 +29,7 @@ func (self *Listener) Init() (error) {
 	}
 	self.AllowOrigins = []string{"127.0.0.1"}
 	self.AllowedMethods = []string{"POST", "GET", "PUT", "PATCH", "OPTIONS", "DELETE"}
-	self.AllowedHeaders = []string{"RequestID", "content-type", "Authorization"}
+	self.AllowedHeaders = []string{"content-type"}
 	self.AllowCredentials = true
 	self.Debug = true
 
@@ -38,6 +38,10 @@ func (self *Listener) Init() (error) {
 
 func (self *Listener) AddHeader(header string) {
 	self.AllowedHeaders = append(self.AllowedHeaders, header)
+}
+
+func (self *Listener) AddOrigin(origin string) {
+	self.AllowedHeaders = append(self.AllowOrigins, origin)
 }
 
 func (self *Listener) Serve(ServiceName string, Routes routeHelper.Routes, AllowOriginFunc func(origin string) bool) {
