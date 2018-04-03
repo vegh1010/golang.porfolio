@@ -1,19 +1,18 @@
 package visiberms_param
 
-import "database/sql"
+import "github.com/vegh1010/golang.porfolio/library/visiberwc"
 
 type Param struct {
-	Postgres *sql.DB
-	DBPrefix string
+	RawData      visiberwc.RawXML
+	Formatter    *visiberwc.Formatter
+	Path         string
+	OutputFolder string
 }
 
 func (self *Param) Init() (err error) {
-
-	err = self.DBConnect()
+	self.Path = "./"
+	self.OutputFolder = "Output"
+	err = self.LoadFile()
 
 	return
-}
-
-func (self *Param) Close() {
-	self.Postgres.Close()
 }

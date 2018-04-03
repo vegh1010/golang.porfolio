@@ -8,6 +8,7 @@ import (
 
 type User struct {
 	Name string
+	Date string
 
 	CharacterFields []string
 	BehaviourFields []string
@@ -66,6 +67,7 @@ func (self *User) Parse(date string) (err error) {
 	if err != nil {
 		return
 	}
+	self.Date = date
 
 	self.Fields["A"], _ = reduce(date[0:1])
 	self.Fields["B"], _ = reduce(date[1:2])
