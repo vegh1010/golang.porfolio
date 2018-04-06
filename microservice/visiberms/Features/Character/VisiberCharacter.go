@@ -2,7 +2,7 @@ package visiberms_character
 
 import (
 	"github.com/vegh1010/golang.porfolio/library/visiberwc"
-	"github.com/vegh1010/golang.porfolio/microservice/visiberms/Features/Param"
+	"github.com/vegh1010/golang.porfolio/microservice/visiberms/Param"
 )
 
 type VisiberCharacter struct {

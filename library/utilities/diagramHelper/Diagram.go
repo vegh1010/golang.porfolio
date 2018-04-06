@@ -7,13 +7,13 @@ import (
 )
 
 const (
-	WORKER = "worker"
-	DATABASE = "database"
+	WORKER       = "worker"
+	DATABASE     = "database"
 	MICROSERVICE = "microservice"
-	COLLECTOR = "collector"
-	QUEUE = "queue"
-	OTHER = "other"
-	STANDALONE = "stand_alone"
+	COLLECTOR    = "collector"
+	QUEUE        = "queue"
+	OTHER        = "other"
+	STANDALONE   = "stand_alone"
 )
 
 //https://cdn.rawgit.com/cytoscape/cytoscape.js/master/dist/cytoscape.min.js
@@ -29,7 +29,7 @@ func NewDiagram(folder, Filename, Title string) (*Diagram) {
 		Filename: Filename,
 		Title:    Title,
 		Elements: map[string]Element{},
-		Edges: map[string]Edge{},
+		Edges:    map[string]Edge{},
 	}
 }
 
@@ -39,6 +39,11 @@ type Diagram struct {
 	Title    string
 	Elements map[string]Element
 	Edges    map[string]Edge
+
+	DefaultNodeStyling *Styling
+	NodeStyling        []*Styling
+	EdgeStyling        *Styling
+	Layout             *Layout
 }
 
 //write into file

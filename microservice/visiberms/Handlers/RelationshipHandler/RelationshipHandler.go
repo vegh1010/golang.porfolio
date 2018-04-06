@@ -1,6 +1,6 @@
 package visiberms_relationship_handler
 
-import "github.com/vegh1010/golang.porfolio/microservice/visiberms/Features/Param"
+import "github.com/vegh1010/golang.porfolio/microservice/visiberms/Param"
 
 type RelationshipHandler struct {
 	visiberms_param.Param
@@ -8,8 +8,4 @@ type RelationshipHandler struct {
 
 func (self *RelationshipHandler) Init() {
 
-}
-
-func (self *RelationshipHandler) Close() {
-	self.Param.Close()
 }

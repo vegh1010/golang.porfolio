@@ -3,6 +3,7 @@ package envHelper
 import (
 	"fmt"
 	"strings"
+	"os"
 )
 
 type EnvironmentManager struct {
@@ -10,8 +11,8 @@ type EnvironmentManager struct {
 }
 
 //if empty value, add to list
-func (self *EnvironmentManager) Validate(tag, value string) {
-	if value == "" {
+func (self *EnvironmentManager) Validate(tag string) {
+	if os.Getenv(tag) == "" {
 		self.Logs = append(self.Logs, fmt.Sprint("environment variable required: ", tag))
 	}
 }
