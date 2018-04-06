@@ -1,7 +1,7 @@
 package diagram_node
 
 import (
-	"github.com/pkg/errors"
+	"errors"
 	"fmt"
 )
 

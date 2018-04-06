@@ -1,14 +1,12 @@
 package diagramHelper
 
 import (
-	"os"
-	"io/ioutil"
 	"github.com/vegh1010/golang.porfolio/library/utilities"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/layout"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/element"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/template"
+	"strings"
+	"github.com/pkg/errors"
 )
 
 //https://cdn.rawgit.com/cytoscape/cytoscape.js/master/dist/cytoscape.min.js
@@ -17,7 +15,6 @@ func NewDiagram(
 	Filename,
 	Title string,
 	DefaultNodeStyling *diagram_node.DefaultStyling,
-	NodeStyling []*diagram_node.Styling,
 	EdgeStyling *diagram_edge.BezierStyling,
 	Layout *diagram_layout.Styling,
 ) (*Diagram) {
@@ -35,7 +32,7 @@ func NewDiagram(
 		Nodes:              map[string]*diagram_node.Object{},
 		Edges:              map[string]*diagram_edge.Object{},
 		DefaultNodeStyling: DefaultNodeStyling,
-		NodeStyling:        NodeStyling,
+		NodeStyling:        map[string]*diagram_node.Styling{},
 		EdgeStyling:        EdgeStyling,
 		Layout:             Layout,
 	}
@@ -48,77 +45,12 @@ type Diagram struct {
 
 	Nodes              map[string]*diagram_node.Object
 	DefaultNodeStyling *diagram_node.DefaultStyling
-	NodeStyling        []*diagram_node.Styling
+	NodeStyling        map[string]*diagram_node.Styling
 
 	Edges       map[string]*diagram_edge.Object
 	EdgeStyling *diagram_edge.BezierStyling
 
 	Layout *diagram_layout.Styling
-}
-
-//write into file
-func (self *Diagram) Create() (err error) {
-	if _, err = os.Stat(self.FilePath); os.IsNotExist(err) {
-		_, err = os.Create(self.FilePath)
-		if err != nil {
-			return
-		}
-	}
-	return
-}
-
-//write into file
-func (self *Diagram) Write(data string) error {
-	err := ioutil.WriteFile(self.FilePath, []byte(""), os.ModeAppend)
-	if err != nil {
-		return err
-	}
-
-	f, err := os.OpenFile(self.FilePath, os.O_WRONLY, os.ModeAppend)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	_, err = f.WriteString(data)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (self *Diagram) Generate() (err error) {
-	var elements []*diagram_element.Object
-	for _, element := range self.Nodes {
-		elements = append(elements, element.GetElement())
-	}
-	for _, edge := range self.Edges {
-		elements = append(elements, edge.GetElement())
-	}
-
-	err = self.Create()
-	if err != nil {
-		return
-	}
-
-	template := diagram_template.NewObject(
-		self.Title,
-		elements,
-		self.DefaultNodeStyling,
-		self.NodeStyling,
-		self.EdgeStyling,
-		self.Layout,
-	)
-	var output string
-	output, err = template.Output()
-	if err != nil {
-		return
-	}
-	err = self.Write(output)
-	if err != nil {
-		return
-	}
-	return
 }
 
 func (self *Diagram) AddNode(Name string, Type *diagram_node.Styling) (*diagram_node.Object) {
@@ -129,13 +61,32 @@ func (self *Diagram) AddNode(Name string, Type *diagram_node.Styling) (*diagram_
 			break
 		}
 	}
-	self.Nodes[uuid] = diagram_node.NewObject(uuid, Name, Type.Selector)
+	self.Nodes[uuid] = diagram_node.NewObject(uuid, Name, strings.Replace(Type.Selector, "node.", "", -1))
 
 	return self.Nodes[uuid]
 }
 
-func (self *Diagram) AddEdge(From diagram_node.Object, To diagram_node.Object) {
-	r := diagram_edge.NewObject(From.ID+"_"+To.ID, From.ID, To.ID)
+func (self *Diagram) AddNodeStyling(name string, opinionStyles ... *diagram_node.Option) (*diagram_node.Styling, error) {
+	instance, err := diagram_node.NewStyling(
+		name,
+		opinionStyles ...,
+	)
+	if err != nil {
+		return instance, err
+	}
+	if _, exist := self.NodeStyling[instance.Selector]; exist {
+		return instance, errors.New("This Node Styling Name: " + name + " Has Been Assigned. Please Use A Different One.")
+	}
+	self.NodeStyling[instance.Selector] = instance
+
+	return self.NodeStyling[instance.Selector], nil
+}
+
+func (self *Diagram) AddEdge(From *diagram_node.Object, To *diagram_node.Object) {
+	from := *From
+	to := *To
+
+	r := diagram_edge.NewObject(from.ID+"_"+to.ID, from.ID, to.ID)
 
 	self.Edges[r.ID] = r
 }

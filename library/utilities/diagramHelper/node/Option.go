@@ -6,7 +6,7 @@ const (
 	Ellipse = "ellipse"
 	Triangle = "triangle"
 	Rectangle = "rectangle"
-	Roundrectangle = "roundrectangle"
+	RoundRectangle = "roundrectangle"
 	BottomRoundRectangle = "bottomroundrectangle"
 	CutRectangle = "cutrectangle"
 	Barrel = "barrel"
@@ -108,7 +108,7 @@ func NewTextWrap(value string) (data *Option) {
 
 func checkShape(name string) (error) {
 	switch name {
-	case Ellipse, Triangle, Rectangle, Roundrectangle, BottomRoundRectangle, CutRectangle, Barrel, Rhomboid, Diamond, Pentagon,
+	case Ellipse, Triangle, Rectangle, RoundRectangle, BottomRoundRectangle, CutRectangle, Barrel, Rhomboid, Diamond, Pentagon,
 		Hexagon, ConcaveHexagon, Heptagon, Octagon, Star, Tag, Vee, Polygon:
 		return nil
 	}

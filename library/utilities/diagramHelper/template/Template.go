@@ -1,13 +1,5 @@
 package diagram_template
 
-import (
-	"strings"
-	"encoding/json"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/element"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
-)
-
 const Template = `
 <!doctype html>
 <html>
