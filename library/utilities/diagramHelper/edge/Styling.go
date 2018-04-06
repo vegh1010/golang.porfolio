@@ -1,12 +1,12 @@
 package diagram_edge
 
-type Styling struct {
+type BezierStyling struct {
 	Selector string
 	Style    []*Option
 }
 
-func NewDefaultBezierStyling() (*Styling) {
-	instance := Styling{
+func NewDefaultBezierStyling() (*BezierStyling) {
+	instance := BezierStyling{
 		Selector: "edge.bezier",
 		Style: []*Option{
 			NewEdgeDistances("node-position"),
@@ -24,4 +24,23 @@ func NewDefaultBezierStyling() (*Styling) {
 	return &instance
 }
 
-//TODO: NewCustomDefaultBezierStyling
+func NewBezierStyling(opinionStyles ... *Option) (*BezierStyling, error) {
+	var instance BezierStyling
+
+	//map opinions
+	mapList := map[string]*Option{}
+	for _, data := range opinionStyles {
+		mapList[data.Tag] = data
+	}
+
+	var list []*Option
+	for _, data := range mapList {
+		list = append(list, data)
+	}
+
+	instance = BezierStyling{
+		Selector: "edge.bezier",
+		Style:    list,
+	}
+	return &instance, nil
+}

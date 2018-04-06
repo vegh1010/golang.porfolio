@@ -8,10 +8,20 @@ import (
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/layout"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/element"
+	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/template"
 )
 
 //https://cdn.rawgit.com/cytoscape/cytoscape.js/master/dist/cytoscape.min.js
-func NewDiagram(folder, Filename, Title string) (*Diagram) {
+func NewDiagram(
+	folder,
+	Filename,
+	Title string,
+	DefaultNodeStyling *diagram_node.DefaultStyling,
+	NodeStyling []*diagram_node.Styling,
+	EdgeStyling *diagram_edge.BezierStyling,
+	Layout *diagram_layout.Styling,
+) (*Diagram) {
+
 	var filePath = "./"
 	if folder != "" {
 		filePath += folder + "/"
@@ -19,11 +29,15 @@ func NewDiagram(folder, Filename, Title string) (*Diagram) {
 	filePath += Filename + ".html"
 
 	return &Diagram{
-		FilePath: filePath,
-		Filename: Filename,
-		Title:    Title,
-		Nodes:    map[string]*diagram_node.Object{},
-		Edges:    map[string]*diagram_edge.Object{},
+		FilePath:           filePath,
+		Filename:           Filename,
+		Title:              Title,
+		Nodes:              map[string]*diagram_node.Object{},
+		Edges:              map[string]*diagram_edge.Object{},
+		DefaultNodeStyling: DefaultNodeStyling,
+		NodeStyling:        NodeStyling,
+		EdgeStyling:        EdgeStyling,
+		Layout:             Layout,
 	}
 }
 
@@ -33,11 +47,11 @@ type Diagram struct {
 	Title    string
 
 	Nodes              map[string]*diagram_node.Object
-	DefaultNodeStyling *diagram_node.Styling
+	DefaultNodeStyling *diagram_node.DefaultStyling
 	NodeStyling        []*diagram_node.Styling
 
 	Edges       map[string]*diagram_edge.Object
-	EdgeStyling *diagram_edge.Styling
+	EdgeStyling *diagram_edge.BezierStyling
 
 	Layout *diagram_layout.Styling
 }
@@ -87,8 +101,16 @@ func (self *Diagram) Generate() (err error) {
 		return
 	}
 
+	template := diagram_template.NewObject(
+		self.Title,
+		elements,
+		self.DefaultNodeStyling,
+		self.NodeStyling,
+		self.EdgeStyling,
+		self.Layout,
+	)
 	var output string
-	output, err = GetTemplate(self.Title, elements)
+	output, err = template.Output()
 	if err != nil {
 		return
 	}
@@ -99,7 +121,7 @@ func (self *Diagram) Generate() (err error) {
 	return
 }
 
-func (self *Diagram) Add(Name string, Type *diagram_node.Styling) (*diagram_node.Object) {
+func (self *Diagram) AddNode(Name string, Type *diagram_node.Styling) (*diagram_node.Object) {
 	var uuid string
 	for {
 		uuid = utilities.GetUuid().String()

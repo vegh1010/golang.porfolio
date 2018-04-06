@@ -8,18 +8,6 @@ import (
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
 )
 
-func GetTemplate(Title string, Elements []*diagram_element.Object, DefaultNode *diagram_node.Styling, NodeStyling []*diagram_node.Styling, EdgeStyling *diagram_edge.Styling) (string, error) {
-	output := Template
-	byteElements, err := json.Marshal(Elements)
-	if err != nil {
-		return output, err
-	}
-	output = strings.Replace(output, `%title%`, Title, -1)
-	output = strings.Replace(output, `%elements%`, string(byteElements), -1)
-
-	return output, nil
-}
-
 const Template = `
 <!doctype html>
 <html>
@@ -42,91 +30,8 @@ const Template = `
     var cy = cytoscape({
         container: document.getElementById('cy'),
         elements: %elements%,
-        style: [
-            {
-                selector: 'node',
-                style: {
-                    shape: 'polygon',
-                    'background-color': 'grey',
-                    label: 'data(name)',
-                    padding: 30,
-                    'border-width': '1',
-                    'font-weight': 'bold',
-                    'text-valign': 'center',
-            		'text-wrap': 'wrap'
-                }
-            },
-            {
-                selector: 'node.microservice',
-                style: {
-                    shape: 'octagon',
-                    'background-color': '#3473d8'
-                }
-            },
-            {
-                selector: 'node.worker',
-                style: {
-                    shape: 'ellipse',
-                    'background-color': 'green'
-                }
-            },
-            {
-                selector: 'node.database',
-                style: {
-                    shape: 'roundrectangle',
-					height: '1px',
-                    'background-color': '#F27E31'
-                }
-            },
-            {
-                selector: 'node.collector',
-                style: {
-                    shape: 'tag',
-                    'background-color': '#f751e9'
-                }
-            },
-            {
-                selector: 'node.queue',
-                style: {
-                    shape: 'roundrectangle',
-					height: '1px',
-                    'background-color': '#f744f4'
-                }
-            },
-            {
-                selector: 'node.other',
-                style: {
-                    shape: 'roundrectangle',
-					height: '1px',
-                    'background-color': 'red'
-                }
-            },
-            {
-                selector: 'node.stand_alone',
-                style: {
-                    shape: 'polygon',
-                    'background-color': '#ef2f2f'
-                }
-            },
-            {
-                selector: "edge.bezier",
-                style: {
-                    'curve-style': 'bezier',
-                    'target-arrow-shape': 'triangle',
-                    'line-color': 'black',
-                    'line-style': 'solid',
-                    'target-arrow-fill': 'filled',
-                    'target-arrow-color': 'black',
-                    'control-point-weight': 0.7,
-                    'edge-distances': 'node-position',
-                    'arrow-scale': 1.5,
-                    "control-point-step-size": 40
-                }
-            }],
-        layout: {
-            name: 'cose',
-            avoidOverlap: true
-        }
+        style: %style%,
+        layout: %layout%
     });
 </script>
 </body>

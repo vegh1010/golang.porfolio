@@ -1,26 +1,6 @@
-package diagramHelper
+package diagram_template
 
-import (
-	"strings"
-	"encoding/json"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/element"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
-)
-
-func GetTemplate(Title string, Elements []*diagram_element.Object, DefaultNode *diagram_node.Styling, NodeStyling []*diagram_node.Styling, EdgeStyling *diagram_edge.Styling) (string, error) {
-	output := Template
-	byteElements, err := json.Marshal(Elements)
-	if err != nil {
-		return output, err
-	}
-	output = strings.Replace(output, `%title%`, Title, -1)
-	output = strings.Replace(output, `%elements%`, string(byteElements), -1)
-
-	return output, nil
-}
-
-const Template = `
+const Template2 = `
 <!doctype html>
 <html>
 <head>

@@ -1,20 +1,33 @@
 package diagram_node
 
-import (
-	"github.com/pkg/errors"
-	"fmt"
-)
+import "fmt"
 
-type Styling struct {
+type DefaultStyling struct {
 	Selector string
 	Style    []*Option
 }
 
-func NewStyling(name string, opinionStyles ... *Option) (*Styling, error) {
-	var instance Styling
-	if name == "" {
-		return &instance, errors.New("Node Name Required")
+func NewDefaultStyling() (*DefaultStyling) {
+	var instance DefaultStyling
+
+	instance = DefaultStyling{
+		Selector: "node",
+		Style: []*Option{
+			NewShape(Polygon),
+			NewBackgroundColor("grey"),
+			NewLabel(),
+			NewPadding(30),
+			NewBorderWidth(1),
+			NewFontWeight("bold"),
+			NewTextVAlign("center"),
+			NewTextWrap("wrap"),
+		},
 	}
+	return &instance
+}
+
+func NewCustomDefaultStyling(opinionStyles ... *Option) (*DefaultStyling, error) {
+	var instance DefaultStyling
 
 	//map opinions
 	mapList := map[string]*Option{}
@@ -44,8 +57,8 @@ func NewStyling(name string, opinionStyles ... *Option) (*Styling, error) {
 		list = append(list, data)
 	}
 
-	instance = Styling{
-		Selector: "node." + name,
+	instance = DefaultStyling{
+		Selector: "node",
 		Style:    list,
 	}
 	return &instance, nil
