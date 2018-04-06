@@ -1,4 +1,4 @@
-package diagramHelper
+package diagram_layout
 
 const (
 	LAYOUT_COSE = "cose"
@@ -9,15 +9,23 @@ const (
 	LAYOUT_BREADTH_FIRST = "breadthfirst"
 )
 
-type Layout struct {
+type Styling struct {
 	Name         string
 	AvoidOverlap bool
 }
 
-func NewLayout(Name string, AvoidOverlap bool) (*Layout) {
-	instance := Layout{
+func NewStyling(Name string, AvoidOverlap bool) (*Styling) {
+	instance := Styling{
 		Name:         Name,
 		AvoidOverlap: AvoidOverlap,
+	}
+	return &instance
+}
+
+func NewDefaultStyling() (*Styling) {
+	instance := Styling{
+		Name:         LAYOUT_COSE,
+		AvoidOverlap: true,
 	}
 	return &instance
 }

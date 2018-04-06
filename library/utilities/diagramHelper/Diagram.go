@@ -4,16 +4,10 @@ import (
 	"os"
 	"io/ioutil"
 	"github.com/vegh1010/golang.porfolio/library/utilities"
-)
-
-const (
-	WORKER       = "worker"
-	DATABASE     = "database"
-	MICROSERVICE = "microservice"
-	COLLECTOR    = "collector"
-	QUEUE        = "queue"
-	OTHER        = "other"
-	STANDALONE   = "stand_alone"
+	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
+	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/layout"
+	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
+	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/element"
 )
 
 //https://cdn.rawgit.com/cytoscape/cytoscape.js/master/dist/cytoscape.min.js
@@ -28,8 +22,8 @@ func NewDiagram(folder, Filename, Title string) (*Diagram) {
 		FilePath: filePath,
 		Filename: Filename,
 		Title:    Title,
-		Elements: map[string]Element{},
-		Edges:    map[string]Edge{},
+		Nodes:    map[string]*diagram_node.Object{},
+		Edges:    map[string]*diagram_edge.Object{},
 	}
 }
 
@@ -37,13 +31,15 @@ type Diagram struct {
 	FilePath string
 	Filename string
 	Title    string
-	Elements map[string]Element
-	Edges    map[string]Edge
 
-	DefaultNodeStyling *Styling
-	NodeStyling        []*Styling
-	EdgeStyling        *Styling
-	Layout             *Layout
+	Nodes              map[string]*diagram_node.Object
+	DefaultNodeStyling *diagram_node.Styling
+	NodeStyling        []*diagram_node.Styling
+
+	Edges       map[string]*diagram_edge.Object
+	EdgeStyling *diagram_edge.Styling
+
+	Layout *diagram_layout.Styling
 }
 
 //write into file
@@ -78,25 +74,12 @@ func (self *Diagram) Write(data string) error {
 }
 
 func (self *Diagram) Generate() (err error) {
-	elements := []interface{}{}
-	for _, element := range self.Elements {
-		node := map[string]interface{}{}
-		data := map[string]string{}
-		data["id"] = element.ID
-		data["name"] = element.Name
-		node["data"] = data
-		node["classes"] = element.Type
-		elements = append(elements, node)
+	var elements []*diagram_element.Object
+	for _, element := range self.Nodes {
+		elements = append(elements, element.GetElement())
 	}
 	for _, edge := range self.Edges {
-		node := map[string]interface{}{}
-		data := map[string]string{}
-		data["id"] = edge.ID
-		data["source"] = edge.Source
-		data["target"] = edge.Target
-		node["data"] = data
-		node["classes"] = "bezier"
-		elements = append(elements, node)
+		elements = append(elements, edge.GetElement())
 	}
 
 	err = self.Create()
@@ -116,55 +99,21 @@ func (self *Diagram) Generate() (err error) {
 	return
 }
 
-func (self *Diagram) AddWorker(Name string) (Element) {
-	return self.Add(Name, WORKER)
-}
-
-func (self *Diagram) AddDatabase(Name string) (Element) {
-	return self.Add(Name, DATABASE)
-}
-
-func (self *Diagram) AddMicroservice(Name string) (Element) {
-	return self.Add(Name, MICROSERVICE)
-}
-
-func (self *Diagram) AddCollector(Name string) (Element) {
-	return self.Add(Name, COLLECTOR)
-}
-
-func (self *Diagram) AddQueue(Name string) (Element) {
-	return self.Add(Name, QUEUE)
-}
-
-func (self *Diagram) AddOther(Name string) (Element) {
-	return self.Add(Name, OTHER)
-}
-
-func (self *Diagram) AddStandAlone(Name string) (Element) {
-	return self.Add(Name, STANDALONE)
-}
-
-func (self *Diagram) Add(Name, Type string) (Element) {
+func (self *Diagram) Add(Name string, Type *diagram_node.Styling) (*diagram_node.Object) {
 	var uuid string
 	for {
 		uuid = utilities.GetUuid().String()
-		if _, exist := self.Elements[uuid]; !exist {
+		if _, exist := self.Nodes[uuid]; !exist {
 			break
 		}
 	}
-	self.Elements[uuid] = Element{
-		ID:   uuid,
-		Name: Name,
-		Type: Type,
-	}
-	return self.Elements[uuid]
+	self.Nodes[uuid] = diagram_node.NewObject(uuid, Name, Type.Selector)
+
+	return self.Nodes[uuid]
 }
 
-func (self *Diagram) AddEdge(From Element, To Element) {
-	r := Edge{
-		ID:     From.ID + "_" + To.ID,
-		Source: From.ID,
-		Target: To.ID,
-	}
+func (self *Diagram) AddEdge(From diagram_node.Object, To diagram_node.Object) {
+	r := diagram_edge.NewObject(From.ID+"_"+To.ID, From.ID, To.ID)
+
 	self.Edges[r.ID] = r
 }

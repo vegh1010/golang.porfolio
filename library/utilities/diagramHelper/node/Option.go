@@ -1,6 +1,6 @@
-package diagramHelper
+package diagram_node
 
-import "github.com/pkg/errors"
+import "errors"
 
 const (
 	Ellipse = "ellipse"
@@ -23,29 +23,34 @@ const (
 	Polygon = "polygon"
 )
 
-func NodeShape(value string) (data StyleOpinion) {
+type Option struct {
+	Tag   string
+	Value interface{}
+}
+
+func NewShape(value string) (data *Option) {
 	if value == "" {
 		value = Polygon
 	}
-	data = StyleOpinion{
+	data = &Option{
 		Tag: "shape",
 		Value: value,
 	}
 	return
 }
 
-func NodeBackgroundColor(value string) (data StyleOpinion) {
+func NewBackgroundColor(value string) (data *Option) {
 	if value == "" {
 		value = "white"
 	}
-	data = StyleOpinion{
+	data = &Option{
 		Tag: "background-color",
 		Value: value,
 	}
 	return
 }
 
-func checkNodeShape(name string) (error) {
+func checkShape(name string) (error) {
 	switch name {
 	case Ellipse, Triangle, Rectangle, Roundrectangle, BottomRoundRectangle, CutRectangle, Barrel, Rhomboid, Diamond, Pentagon,
 		Hexagon, ConcaveHexagon, Heptagon, Octagon, Star, Tag, Vee, Polygon:

@@ -1,4 +1,4 @@
-package diagramHelper
+package diagram_template
 
 import (
 	"strings"
