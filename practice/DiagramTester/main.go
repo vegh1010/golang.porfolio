@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/vegh1010/golang.porfolio/library/utilities"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
 	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/edge"
@@ -13,9 +12,6 @@ func main() {
 	fmt.Println("Generating Treeview")
 	var folder = "document"
 	var project = "testing"
-
-	err := utilities.CreateFolder(folder)
-	check(err)
 
 	diagram, err := GetDiagram(folder, project)
 	check(err)
@@ -35,13 +31,6 @@ func check(err error) {
 func GetDiagram(folder, project string) (diagram *diagramHelper.Diagram, err error) {
 	fmt.Println("GetDiagram()")
 
-	//var Nodes *diagramHelper.DefaultNodeStyling
-	//Nodes, err = diagramHelper.NewDefaultNodeStyling()
-	//if err != nil {
-	//	return
-	//}
-
-	fmt.Println("NewDiagram()")
 	diagram = diagramHelper.NewDiagram(
 		folder,
 		project,
@@ -56,6 +45,7 @@ func GetDiagram(folder, project string) (diagram *diagramHelper.Diagram, err err
 	QUEUE := new(diagram_node.Styling)
 	WORKER := new(diagram_node.Styling)
 
+	//create node styling
 	DATABASE, err = diagram.AddNodeStyling("database", NodeHeightOptions(diagram_node.RoundRectangle, "#F27E31")...)
 	if err != nil {
 		return

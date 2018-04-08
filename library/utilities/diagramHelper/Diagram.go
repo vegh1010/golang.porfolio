@@ -23,10 +23,10 @@ func NewDiagram(
 	if folder != "" {
 		filePath += folder + "/"
 	}
-	filePath += Filename + ".html"
 
 	return &Diagram{
-		FilePath:           filePath,
+		FolderPath:         filePath,
+		FilePath:           filePath + Filename + ".html",
 		Filename:           Filename,
 		Title:              Title,
 		Nodes:              map[string]*diagram_node.Object{},
@@ -39,9 +39,10 @@ func NewDiagram(
 }
 
 type Diagram struct {
-	FilePath string
-	Filename string
-	Title    string
+	FolderPath string
+	FilePath   string
+	Filename   string
+	Title      string
 
 	Nodes              map[string]*diagram_node.Object
 	DefaultNodeStyling *diagram_node.DefaultStyling

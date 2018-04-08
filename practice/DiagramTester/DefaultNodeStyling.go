@@ -1,8 +1,6 @@
-package diagramHelper
+package main
 
-import (
-	"github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
-)
+import "github.com/vegh1010/golang.porfolio/library/utilities/diagramHelper/node"
 
 //https://cdn.rawgit.com/cytoscape/cytoscape.js/master/dist/cytoscape.min.js
 func NewDefaultNodeStyling() (instance *DefaultNodeStyling, err error) {
