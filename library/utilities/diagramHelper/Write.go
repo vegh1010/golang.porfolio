@@ -1,12 +1,18 @@
 package diagramHelper
 
 import (
+	"io/ioutil"
 	"os"
 )
 
 //write into file
 func (self *Diagram) Write(data string) error {
-	f, err := os.OpenFile(self.FilePath, os.O_WRONLY, 0644)
+	err := ioutil.WriteFile(self.FilePath, []byte(""), os.ModeAppend)
+	if err != nil {
+		return err
+	}
+
+	f, err := os.OpenFile(self.FilePath, os.O_WRONLY, os.ModeAppend)
 	if err != nil {
 		return err
 	}

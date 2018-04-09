@@ -11,12 +11,13 @@ import (
 func main() {
 	fmt.Println("Generating Treeview")
 	var folder = "document"
-	var project = "testing"
 
-	diagram, err := GetDiagram(folder, project)
+	//diagram, err := GetDiagram(folder, "testing", "Testing Diagram")
+	//check(err)
+
+	diagram, err := GetDDiagram(folder, "dynamic testing", "Dynamic Testing Diagram")
 	check(err)
 
-	fmt.Println("Generate()")
 	err = diagram.Generate()
 	check(err)
 	fmt.Println("Diagram File Generated")
@@ -28,7 +29,7 @@ func check(err error) {
 	}
 }
 
-func GetDiagram(folder, project string) (diagram *diagramHelper.Diagram, err error) {
+func GetDiagram(folder, project, title string) (diagram *diagramHelper.Diagram, err error) {
 	fmt.Println("GetDiagram()")
 
 	diagram = diagramHelper.NewDiagram(

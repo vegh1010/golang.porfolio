@@ -131,10 +131,10 @@ func (self *Object) Output() (string, error) {
 		return output, err
 	}
 
-	output = strings.Replace(output, `%title%`, self.Title, -1)
-	output = strings.Replace(output, `%elements%`, string(byteElements), -1)
-	output = strings.Replace(output, `%style%`, string(byteStyle), -1)
-	output = strings.Replace(output, `%layout%`, string(byteLayout), -1)
+	output = strings.Replace(output, `%title%`, self.Title, 1)
+	output = strings.Replace(output, `%elements%`, string(byteElements), 1)
+	output = strings.Replace(output, `%style%`, string(byteStyle), 1)
+	output = strings.Replace(output, `%layout%`, string(byteLayout), 1)
 
 	return output, nil
 }
