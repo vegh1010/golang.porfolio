@@ -3,6 +3,7 @@ package commandHelper
 import (
 	"flag"
 	"fmt"
+	"github.com/apcera/termtables"
 )
 
 //command line library for developers
@@ -36,11 +37,19 @@ func (self *Commands) Process() (isCommand bool) {
 
 	if *self.boolHelp {
 		isCommand = true
-		fmt.Println("Commands:-")
+		MemoryTable := termtables.CreateTable()
+		MemoryTable.AddHeaders(
+			"Command",
+			"Description",
+		)
 		for i := 0; i<len(self.list); i++ {
 			data := self.list[i]
-			fmt.Println("-" + data.Name, "	", data.Usage)
+			MemoryTable.AddRow(
+				"-" + data.Name,
+				data.Usage,
+			)
 		}
+		fmt.Println(MemoryTable.Render())
 	} else {
 		for i := 0; i<len(self.list); i++ {
 			data := self.list[i]
