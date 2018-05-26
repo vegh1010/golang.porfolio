@@ -60,10 +60,7 @@ func Generate(relation *visiberwc.Relationship, users ... visiberwc.User) (err e
 	}
 	var fileName = strings.Replace(strings.Join(names, "_"), " ", "_", -1)
 	var filePath string
-	filePath, err = utilities.CreateFilePath("output", fmt.Sprint(fileName, ".pdf"))
-	if err != nil {
-		return
-	}
+	filePath = utilities.CreateFilePath("output", fmt.Sprint(fileName, ".pdf"))
 
 	pdf := gofpdf.New("P", "pt", "A4", "")
 
