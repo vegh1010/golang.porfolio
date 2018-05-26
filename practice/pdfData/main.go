@@ -13,32 +13,65 @@ import (
 )
 
 func main() {
-	xmlFile, err := os.Open("visiber.xml")
+	data, err := readData()
 	check(err)
-
-	defer xmlFile.Close()
-
-	byteValue, err := ioutil.ReadAll(xmlFile)
-	check(err)
-
-	var data visiberwc.RawXML
-	err = xml.Unmarshal(byteValue, &data)
-	check(err)
-
-	data.TrimSpace()
 
 	formatter := visiberwc.NewFormatter(data)
 
-	vUser1, err := GenerateUser(formatter, "Barack Obama", "04081961")
-	check(err)
-	vUser2, err := GenerateUser(formatter, "Donald Trump", "14071946")
-	check(err)
+	list := [][]string{
+		{"Barack Obama", "04081961", "Donald Trump", "14071946"},
+	}
+
+	for _, record := range list {
+		err := GeneratePair(formatter, record[0], record[1], record[2], record[3])
+		check(err)
+	}
+}
+
+func GeneratePair(formatter *visiberwc.Formatter, name1, date1, name2, date2 string) (error) {
+	vUser1, err := GenerateUser(formatter, name1, date1)
+	if err != nil {
+		return err
+	}
+	vUser2, err := GenerateUser(formatter, name2, date2)
+	if err != nil {
+		return err
+	}
 
 	relation, err := formatter.Compatibility(vUser1, vUser2)
-	check(err)
+	if err != nil {
+		return err
+	}
 
 	err = Generate(&relation, vUser1, vUser2)
-	check(err)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func readData() (visiberwc.RawXML, error) {
+	var data visiberwc.RawXML
+	xmlFile, err := os.Open("visiber.xml")
+	if err != nil {
+		return data, err
+	}
+	defer xmlFile.Close()
+
+	byteValue, err := ioutil.ReadAll(xmlFile)
+	if err != nil {
+		return data, err
+	}
+
+	err = xml.Unmarshal(byteValue, &data)
+	if err != nil {
+		return data, err
+	}
+
+	data.TrimSpace()
+
+	return data, nil
 }
 
 func GenerateUser(formatter *visiberwc.Formatter, name, date string) (visiberwc.User, error) {
@@ -46,7 +79,7 @@ func GenerateUser(formatter *visiberwc.Formatter, name, date string) (visiberwc.
 	if err != nil {
 		return vUser, err
 	}
-	err = Generate(nil , vUser)
+	err = Generate(nil, vUser)
 	if err != nil {
 		return vUser, err
 	}
@@ -56,7 +89,7 @@ func GenerateUser(formatter *visiberwc.Formatter, name, date string) (visiberwc.
 func Generate(relation *visiberwc.Relationship, users ... visiberwc.User) (err error) {
 	var names []string
 	for _, userData := range users {
-		names = append(names, userData.Name + "_" + userData.Date)
+		names = append(names, userData.Name+"_"+userData.Date)
 	}
 	var fileName = strings.Replace(strings.Join(names, "_"), " ", "_", -1)
 	var filePath string
