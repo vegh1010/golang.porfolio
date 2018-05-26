@@ -23,8 +23,13 @@ func main() {
 	}
 
 	for _, record := range list {
-		err := GeneratePair(formatter, record[0], record[1], record[2], record[3])
-		check(err)
+		if len(record) == 4 {
+			err := GeneratePair(formatter, record[0], record[1], record[2], record[3])
+			check(err)
+		} else if len(record) == 2 {
+			_, err := GenerateUser(formatter, record[0], record[1])
+			check(err)
+		}
 	}
 }
 
