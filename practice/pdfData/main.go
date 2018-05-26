@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"encoding/xml"
 	"fmt"
+	"strings"
 )
 
 func main() {
@@ -28,33 +29,44 @@ func main() {
 
 	formatter := visiberwc.NewFormatter(data)
 
-	vUser1, err := formatter.Calculate("Barack Obama", "04081961")
+	vUser1, err := GenerateUser(formatter, "Barack Obama", "04081961")
 	check(err)
-	vUser2, err := formatter.Calculate("Donald Trump", "14071946")
+	vUser2, err := GenerateUser(formatter, "Donald Trump", "14071946")
 	check(err)
 
 	relation, err := formatter.Compatibility(vUser1, vUser2)
 	check(err)
 
-	filePath, err := utilities.CreateFilePath("output", fmt.Sprint(vUser1.Name, "_", vUser1.Date, "_", vUser2.Name, "_", vUser2.Date, ".pdf"))
+	err = Generate(&relation, vUser1, vUser2)
 	check(err)
-	var file *os.File
-	file, err = os.Create(filePath)
-	check(err)
-	defer file.Close()
+}
+
+func GenerateUser(formatter *visiberwc.Formatter, name, date string) (visiberwc.User, error) {
+	vUser, err := formatter.Calculate(name, date)
+	if err != nil {
+		return vUser, err
+	}
+	err = Generate(nil , vUser)
+	if err != nil {
+		return vUser, err
+	}
+	return vUser, err
+}
+
+func Generate(relation *visiberwc.Relationship, users ... visiberwc.User) (err error) {
+	var names []string
+	for _, userData := range users {
+		names = append(names, userData.Name + "_" + userData.Date)
+	}
+	var fileName = strings.Replace(strings.Join(names, "_"), " ", "_", -1)
+	var filePath string
+	filePath, err = utilities.CreateFilePath("output", fmt.Sprint(fileName, ".pdf"))
+	if err != nil {
+		return
+	}
 
 	pdf := gofpdf.New("P", "pt", "A4", "")
 
-	err = Generate(pdf, &relation, vUser1, vUser2)
-	check(err)
-
-	err = pdf.OutputFileAndClose(filePath)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func Generate(pdf *gofpdf.Fpdf, relation *visiberwc.Relationship, users ... visiberwc.User) (err error) {
 	for index, userData := range users {
 		pdf.AddPage()
 		diagram1 := visiberwc_pdf.Diagram{
@@ -70,6 +82,10 @@ func Generate(pdf *gofpdf.Fpdf, relation *visiberwc.Relationship, users ... visi
 		if relation != nil && (index == len(users)-1) {
 			diagram1.Relation(pdf, *relation)
 		}
+	}
+	err = pdf.OutputFileAndClose(filePath)
+	if err != nil {
+		return
 	}
 	return
 }
